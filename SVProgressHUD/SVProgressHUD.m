@@ -61,6 +61,8 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 @property (nonatomic, readonly) CGFloat visibleKeyboardHeight;
 @property (nonatomic, readonly) UIWindow *frontWindow;
 
+@property (nonatomic, assign)CGSize statusLabelMaxSize;
+
 - (void)updateHUDFrame;
 
 #if TARGET_OS_IOS
@@ -343,6 +345,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     [self setOffsetFromCenter:UIOffsetZero];
 }
 
++ (void)setMaxStatusLabelSize:(CGSize)maxSize
+{
+    [self sharedView].statusLabelMaxSize = maxSize;
+}
 
 #pragma mark - Instance Methods
 
@@ -369,6 +375,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         _defaultStyle = SVProgressHUDStyleLight;
         _defaultAnimationType = SVProgressHUDAnimationTypeFlat;
         _minimumSize = CGSizeZero;
+        _statusLabelMaxSize = CGSizeMake(200.0f, 300.0f);
         _font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         
         NSBundle *bundle = [NSBundle bundleForClass:[SVProgressHUD class]];
@@ -418,7 +425,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     CGFloat labelWidth = 0.0f;
     
     if(self.statusLabel.text) {
-        CGSize constraintSize = CGSizeMake(200.0f, 300.0f);
+        CGSize constraintSize = self.statusLabelMaxSize
         labelRect = [self.statusLabel.text boundingRectWithSize:constraintSize
                                                         options:(NSStringDrawingOptions)(NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin)
                                                      attributes:@{NSFontAttributeName: self.statusLabel.font}

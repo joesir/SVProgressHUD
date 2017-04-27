@@ -99,6 +99,8 @@ typedef void (^SVProgressHUDDismissCompletion)(void);
 + (void)setFadeOutAnimationDuration:(NSTimeInterval)duration;       // default is 0.15 seconds
 + (void)setMaxSupportedWindowLevel:(UIWindowLevel)windowLevel;      // default is UIWindowLevelNormal
 
++ (void)setMaxStatusLabelSize:(CGSize)maxSize;
+
 #pragma mark - Show Methods
 
 + (void)show;
